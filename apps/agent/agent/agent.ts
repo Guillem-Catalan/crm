@@ -2,6 +2,7 @@ import "@crm/env/load";
 
 import { createAnthropic } from "@ai-sdk/anthropic";
 import { onTelemetryProblem, syncVersion } from "@crm/telemetry";
+import type { AgentDefinition } from "eve";
 import { defineAgent } from "eve";
 import { logCapabilities } from "./lib/capabilities";
 
@@ -16,7 +17,7 @@ const azure = createAnthropic({
 	apiKey: process.env.AZURE_FOUNDRY_KEY!,
 });
 
-export default defineAgent({
+const agent: AgentDefinition = defineAgent({
 	model: azure(process.env.AZURE_DEPLOYMENT_NAME || "claude-sonnet-4-6"),
 	modelContextWindowTokens: 200_000,
 	limits: {
@@ -25,3 +26,4 @@ export default defineAgent({
 		sessionTimeoutMs: 30 * 24 * 60 * 60 * 1000,
 	},
 });
+export default agent;
