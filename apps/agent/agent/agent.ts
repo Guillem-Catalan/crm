@@ -1,10 +1,9 @@
 import "@crm/env/load";
 
-import { DEFAULT_AGENT_MODEL } from "@crm/db/settings";
+import { createAnthropic } from "@ai-sdk/anthropic";
 import { onTelemetryProblem, syncVersion } from "@crm/telemetry";
-import { defineAgent, defineDynamic } from "eve";
+import { defineAgent } from "eve";
 import { logCapabilities } from "./lib/capabilities";
-import { selectedModel } from "./lib/model";
 
 void logCapabilities();
 
@@ -12,11 +11,14 @@ onTelemetryProblem((message) => console.debug(`[telemetry] ${message}`));
 
 void syncVersion();
 
+const azure = createAnthropic({
+	baseURL: process.env.AZURE_FOUNDRY_ENDPOINT,
+	apiKey: process.env.AZURE_FOUNDRY_KEY!,
+});
+
 export default defineAgent({
-	model: defineDynamic({
-		fallback: DEFAULT_AGENT_MODEL.id,
-		events: { "session.started": () => selectedModel() },
-	}),
+	model: azure(process.env.AZURE_DEPLOYMENT_NAME || "claude-sonnet-4-6"),
+	modelContextWindowTokens: 200_000,
 	limits: {
 		maxInputTokensPerSession: 500_000,
 		maxOutputTokensPerSession: 50_000,
