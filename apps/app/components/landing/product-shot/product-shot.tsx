@@ -60,9 +60,7 @@ function AppHeader() {
 					<Logo className="size-5 shrink-0 text-foreground" />
 				</span>
 				<span className="mx-1 h-5 w-px shrink-0" />
-				<span className="line-clamp-1 font-medium text-sm/[142%]">
-					CBR CRM
-				</span>
+				<span className="line-clamp-1 font-medium text-sm/[142%]">CBR CRM</span>
 			</div>
 
 			<span className="ml-auto flex size-8 shrink-0 items-center justify-center rounded-md">
