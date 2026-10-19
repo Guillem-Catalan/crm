@@ -43,6 +43,8 @@ if (env.google) {
 		scope: [...SYNC_SCOPES],
 
 		accessType: "offline",
+
+		prompt: "select_account",
 	};
 
 	const hostedDomain = primaryWorkspaceDomain();
