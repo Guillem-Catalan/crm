@@ -1,0 +1,7 @@
+{
+  "type": "app",
+  "stage": "building",
+  "shared": false,
+  "mode": "build",
+  "envs": null
+}

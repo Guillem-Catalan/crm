@@ -1,3 +1,46 @@
+## Contexto del proyecto (Guillem)
+
+**Qué es:** CRM open source "agentic-first": una app web (`apps/app`, Next.js, :3000), una API (`apps/api`, NestJS + tRPC, :3001) y un agente de investigación (`apps/agent`, eve) que trabaja solo sobre una cola de tareas. Monorepo con bun + Turborepo y Postgres/Prisma. Guillem lo usa como CRM propio con marca **CBR** (white-label), desplegado en Vercel.
+
+**Fork:** este repo es un fork de `trycompai/crm` (Comp AI). Rama por defecto: `release`.
+- `origin` = `Guillem-Catalan/crm` (el fork). Todo push y todo PR van aquí.
+- `upstream` = `trycompai/crm`. Solo para leer o traer cambios. Nunca hagas push ni abras PRs contra upstream salvo que Guillem lo pida.
+- PRs siempre con `gh pr create --repo Guillem-Catalan/crm --base release`.
+
+**Qué hay propio** (commits de Guillem sobre upstream, desde 2026-09-04):
+- White-label de "Comp AI" a "CBR" en todo el código (textos, logo, instrucciones del agente).
+- Modelo del agente vía Azure AI Foundry (`apps/agent/agent/agent.ts`, variables `AZURE_*`).
+- Ajustes de despliegue en Vercel plan Hobby: todos los crons diarios (sync de buzón a las 08:00 UTC, dispatch del agente diario), `apps/api` con `outDir` dinámico y `api/` renombrado a `handler/` para que Vercel no lo autodetecte.
+- `.env.example` documenta las variables de Azure, agente y cron (rama `chore/env-example`).
+
+**Cómo se arranca en local** (README "Quick start" y `docs/setup.md`; sin comprobar en este Mac):
+```
+cp .env.example .env
+bun install            # bun 1.3.12, Node >= 22
+docker compose up -d   # Postgres 17 en :5432
+bun run db:deploy
+bun run db:seed        # opcional
+bun run dev            # app :3000, API :3001
+```
+
+**Variables de entorno** (un único `.env` en la raíz; nombres según `.env.example`): `DATABASE_URL`, `DIRECT_DATABASE_URL`, `TEST_DATABASE_URL`, `BETTER_AUTH_SECRET`, `ALLOWED_SIGN_IN`, `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, `MICROSOFT_CLIENT_ID`, `MICROSOFT_CLIENT_SECRET`, `MICROSOFT_TENANT_ID`, `SLACK_CLIENT_ID`, `SLACK_CLIENT_SECRET`, `IS_MARKETING`, `API_URL`, `APP_URL`, `AUTH_COOKIE_DOMAIN`, `AGENT_URL`, `AGENT_PORT`, `AGENT_BRIDGE_SECRET`, `PORT`, `PERPLEXITY_API_KEY`, `GITHUB_TOKEN`, `BLOB_READ_WRITE_TOKEN`, `AI_GATEWAY_API_KEY`, `REDIS_URL`, `CACHE_TTL_MS`, `CRON_SECRET`, `PRISMA_LOG_QUERIES`, `CRM_TELEMETRY_DISABLED`, `AZURE_FOUNDRY_ENDPOINT`, `AZURE_FOUNDRY_KEY`, `AZURE_DEPLOYMENT_NAME`. Detalle en `docs/environment.md`.
+
+**Verificación** (lo mismo que ejecuta el hook `.githooks/pre-push` y CI):
+```
+bun run check-types
+bun run lint
+bun run lint:slop
+bun run test           # necesita Postgres (TEST_DATABASE_URL); ver docs/setup.md
+```
+
+**Estado** (2026-10-06):
+- Fase de construcción. `release` del fork lleva 10 commits propios sobre `upstream/release` (base 2026-08-21); upstream no tiene commits nuevos desde entonces.
+- PR abierto #2 `chore/env-example` → `release`: documenta variables de Azure, agente y cron en `.env.example`.
+- PR abierto #1 `fix/google-account-picker` → `release`: muestra siempre el selector de cuenta de Google al iniciar sesión.
+- Las reglas de abajo piden ID de tarea Median (`MDN-xx`) en commits/PRs y prohíben `Co-Authored-By`; confirmar con Guillem si aplican a su fork.
+
+---
+
 # Strict rules — review before starting any work
 
 **Read the doc for the area you are touching before you touch it.** The table
