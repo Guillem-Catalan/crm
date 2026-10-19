@@ -11,7 +11,7 @@
 - White-label de "Comp AI" a "CBR" en todo el código (textos, logo, instrucciones del agente).
 - Modelo del agente vía Azure AI Foundry (`apps/agent/agent/agent.ts`, variables `AZURE_*`).
 - Ajustes de despliegue en Vercel plan Hobby: todos los crons diarios (sync de buzón a las 08:00 UTC, dispatch del agente diario), `apps/api` con `outDir` dinámico y `api/` renombrado a `handler/` para que Vercel no lo autodetecte.
-- `.env.example` documenta las variables de Azure, agente y cron (rama `chore/env-example`).
+- `.env.example` documenta las variables de Azure, agente y cron.
 
 **Cómo se arranca en local** (README "Quick start" y `docs/setup.md`; sin comprobar en este Mac):
 ```
@@ -33,11 +33,11 @@ bun run lint:slop
 bun run test           # necesita Postgres (TEST_DATABASE_URL); ver docs/setup.md
 ```
 
-**Estado** (2026-10-06):
-- Fase de construcción. `release` del fork lleva 10 commits propios sobre `upstream/release` (base 2026-08-21); upstream no tiene commits nuevos desde entonces.
-- PR abierto #2 `chore/env-example` → `release`: documenta variables de Azure, agente y cron en `.env.example`.
-- PR abierto #1 `fix/google-account-picker` → `release`: muestra siempre el selector de cuenta de Google al iniciar sesión.
-- Las reglas de abajo piden ID de tarea Median (`MDN-xx`) en commits/PRs y prohíben `Co-Authored-By`; confirmar con Guillem si aplican a su fork.
+**Estado** (2026-10-19):
+- Fase de construcción. Todo está en `release` (la única rama del fork): lleva 16 commits sobre `upstream/release` (base 2026-08-21) y upstream no tiene commits nuevos desde entonces.
+- `.env.example` documenta las variables de Azure, agente y cron, y el login con Google muestra siempre el selector de cuenta.
+- Las ramas `lewis/*`, `scalar-*` y similares que había en el fork eran copias de ramas de upstream y se borraron; siguen en `upstream`.
+- Las reglas de abajo piden ID de tarea Median (`MDN-xx`) en commits/PRs y prohíben `Co-Authored-By`. Guillem confirmó que aplican; no hay ID para los cambios de documentación.
 
 ---
 
